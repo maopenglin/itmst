@@ -1,0 +1,45 @@
+alias iTMSTransporter="/Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter"
+
+
+
+//测试
+iTMSTransporter -m lookupMetadata  -u xxx@email.com  -p password  -vendor_id 20150521 -destination /Users/maopenglin/Desktop/folder/pem/itmst/test/
+
+//cmstop测试
+iTMSTransporter -m lookupMetadata  -u xxx@email.com  -p password  -vendor_id 130424 -destination /Users/maopenglin/Desktop/folder/pem/itmst/test/
+
+//紫荆网测试
+iTMSTransporter -m lookupMetadata  -u 505623856@qq.com  -p Zijing141414  -vendor_id 20150417 -destination /Users/maopenglin/Desktop/folder/pem/itmst/test/
+
+
+security add-generic-password -s Xcode:itunesconnect.apple.com -a LOGIN -w password -U  xxx@email.com
+
+文件md5计算 md5 -q 3.52.png
+文件大小计算 stat -f%z 3.51.png
+
+校验文件
+iTMSTransporter -m verify -f 20150521.itmsp  -u xxx@email.com  -p password
+
+//上传校验文件
+iTMSTransporter -m upload -f package.itmsp -u xxx@email.com  -p password
+
+
+
+反解app 信息
+codesign -dv /Users/maopenglin/Desktop/folder/pem/itmst/test/shenzhen-master/Payload/CmsTop.app/ 2>&1
+
+
+
+//待测试
+xcrun -sdk iphoneos Validation release.ipa
+xcrun -sdk iphoneos Validation -verbose -online release.ipa
+
+security add-generic-password -s Xcode:itunesconnect.apple.com -a LOGIN -w password -U  xxx@email.com
+
+xcrun -sdk iphoneos Validation -verbose -online -upload "/Users/maopenglin/Desktop/ipa-upload/release.ipa"
+security delete-generic-password  -s Xcode:itunesconnect.apple.com -a LOGIN
+
+
+
+
+

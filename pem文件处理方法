@@ -1,0 +1,105 @@
+openssl x509 -inform DER -in gu.crt -out outcert.pem -text
+
+openssl genrsa  -out private.key 2048
+chmod 0600 private.key
+security import private.key -k ~/Library/Keychains/login.keychain -A
+/*
+-A 是证书授信需要，必须写
+*/
+openssl req -new  -key private.key  -out CertificateSigningRequest.certSigningRequest -subj "/emailAddress=apple@cmstop.com/CN=maopenglin/C=CN/ST=BJ/L=BeiJing"
+
+
+security import ca.cer -k ~/Library/Keychains/login.keychain
+chmod 0600 aps-18.cer
+security import aps-18.cer -k ~/Library/Keychains/login.keychain
+
+openssl x509 -in aps-18.cer -inform DER -out apn_developer_identity.pem -outform PEM
+openssl rsa -in private.key -text > private.pem
+openssl rsa -out private_key_noenc.pem -in private.pem
+
+openssl pkcs12 -export -in apn_developer_identity.pem -inkey private_key_noenc.pem -certfile CertificateSigningRequest.certSigningRequest -name "apn_developer_identity" -out apn_developer_identity.p12 -passin pass:xxxx -passout pass:1
+openssl pkcs12 -in apn_developer_identity.p12 -out apn_dev.pem -nodes -passin pass:1
+
+
+sudo security add-trusted-cert -d -r trustRoot -k \
+"/Library/Keychains/System.keychain" \
+"aps-18.cer" -P '1122qqwwaaszx'
+
+
+security delete-certificate -c com.cmstop.shellApns -t ~/Library/Keychains/login.keychain 
+
+
+###解析mobileprovision证书文件解析
+security cms -D -i shellapns.mobileprovision > tmp.plist && /usr/libexec/PlistBuddy -c 'Print :Entitlements:application-identifier' tmp.plist
+
+security cms -D -i dymobileProfile.mobileprovision > tmp.plist && /usr/libexec/PlistBuddy -c 'Print :UUID' tmp.plist
+#mv shellapns.mobileprovision c6a10031-7867-4866-88bc-5a4c28e5b838.mobileprovision
+cp  "dymobileProfile.mobileprovision"  "/Users/cmstop/Library/MobileDevice/Provisioning Profiles/ecb70cf1-5404-446e-af10-82a59b1a8f23.mobileprovision"
+
+
+#UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ${PROFILE_FILE}.mobileprovision)`
+
+security add-certificate aps-18.cer
+/*
+ xcodebuild -verbose -alltargets -configuration Release clean build
+--security unlock-keychain -p 1122qqwwaaszx
+--security unlock-keychain  -p 1122qqwwaaszx -k ~/Library/Keychains/login.keychain 
+--security -v authorize -uew sign | /usr/bin/codesign
+--security -q authorize -uew my-right | security -q authorize -i my-right
+/*
+sudo /usr/bin/codesign --force --sign 008E956A1A6A8AC27071A90FDAF0621F09FB9357 --resource-rules=/Users/cmstop/Desktop/cmstop-cloud/autocerTest/CmsTopCloud/build/Release-iphoneos/CmsTopCloud.app/ResourceRules.plist --entitlements /Users/cmstop/Desktop/cmstop-cloud/autocerTest/CmsTopCloud/build/CmsTopCloud.build/Release-iphoneos/CmsTopCloud.build/CmsTopCloud.app.xcent /Users/cmstop/Desktop/cmstop-cloud/autocerTest/CmsTopCloud/build/Release-iphoneos/CmsTopCloud.app
+*/
+
+# CODE_SIGN_IDENTITY="iPhone Developer: shenghui zhong (4H6BK8A398)" PROVISIONING_PROFILE=c6a10031-7867-4866-88bc-5a4c28e5b838
+&&
+
+
+
+/usr/bin/xcrun -sdk iphoneos PackageApplication -v "/Users/cmstop/Desktop/cmstop-cloud/new_cloud/ios_cloud_code/CmsTopCloud/build/Release-iphoneos/CmsTopCloud.app" -o "/Users/cmstop/Desktop/cmstop-cloud/new_cloud/ios_cloud_code/CmsTopCloud/build/Release-iphoneos/C.ipa" 
+
+
+
+
+#--sign "iPhone Developer: shenghui zhong (4H6BK8A398)" --embed "/Users/cmstop/Library/MobileDevice/Provisioning Profiles/c6a10031-7867-4866-88bc-5a4c28e5b838.mobileprovision"
+
+pbproject 
+PROVISIONING_PROFILE = "c6a10031-7867-4866-88bc-5a4c28e5b838";
+CODE_SIGN_IDENTITY = "iPhone Developer: shenghui zhong (4H6BK8A398)";
+"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: shenghui zhong (4H6BK8A398)";
+DevelopmentTeam = 4H6BK8A398;
+*/
+
+//编译证书   获取证书名字
+
+cer 转换pem
+ openssl x509 -inform der -in ios_development-3.cer -out certificate.pem
+//获取pem信息
+openssl x509 -noout -subject -in certificate.pem 
+
+
+
+
+#钥匙串删除
+#ls -l ~/Library/Keychains/login.keychain
+#sudo cp ~/Library/Keychains/login.keychain ~/Library/Keychains/login.keychain.old
+#ls -l ~/Library/Keychains/
+#security dump-keychain ~/Library/Keychains/login.keychain
+#security delete-certificate -c 'Apple Development IOS Push Services: com.cmstop.shellApns' ~/Library/Keychains/login.keychain
+#security delete-certificate -Z 'Imported Private Key' ~/Library/Keychains/login.keychain
+#security delete-certificate -c 'mykey.key' ~/Library/Keychains/login.keychain
+
+
+//bash iTMSTransporter help
+/Applications/Xcode-6.0.1.app/Contents/Applications/Application Loader.app/Contents/MacOS/itms/bin
+
+#bash iTMSTransporter -m lookupMetadata -u apple@xxx.com -p password -vendor_id qudong -destination test.items
+#https://github.com/invariant/asedit/blob/master/asedit
+//abfe5c245c0dafc023b03ce4aafebba9166eeb7a  峰哥手机
+
+//启动浏览器
+/usr/bin/open -a "/Applications/Google Chrome.app"  'https://developer.apple.com'   
+
+
+alias ogc='open -a Google\ Chrome --args --disable-web-security --allow-file-access-from-files'
+exec $SHELL
+open -a Google\ Chrome https://developer.apple.com --args --disable-web-security --allow-file-access-from-files  
