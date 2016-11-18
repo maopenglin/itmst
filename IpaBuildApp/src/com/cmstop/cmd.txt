@@ -1,0 +1,3 @@
+keytool -validity 365 -genkey -v -alias www.cmstop.com -keyalg RSA -keystore cmstop.keystore -dname "CN=210.51.2.139,OU=stos,O=asdc,L=Haidian,ST=Beijing,c=cn" -storepass cmsTop -keypass cmsTop
+
+keytool -export -v -alias www.cmstop.com -keystore cmstop.keystore -storepass cmsTop -rfc -file cmstop.cer

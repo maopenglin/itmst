@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name></display-name>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>test</servlet-name>
+		<servlet-class>com.cmstop.IOS</servlet-class>
+
+	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AndroidApi</servlet-name>
+    <servlet-class>com.cmstop.AndroidApi</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateAndroid</servlet-name>
+    <servlet-class>com.cmstop.UpdateAndroid</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>csrFile</servlet-name>
+    <servlet-class>com.cmstop.CSRFile</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Report</servlet-name>
+    <servlet-class>com.cmstop.report.Report</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Resume</servlet-name>
+    <servlet-class>com.cmstop.Resume</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Note</servlet-name>
+    <servlet-class>com.cmstop.Note</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TestResume</servlet-name>
+    <servlet-class>com.cmstop.TestResume</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+	<filter>
+		<filter-name>loggerfilter</filter-name>
+		<filter-class>com.cmstop.XSSCheckFilter</filter-class>
+	</filter>
+	<!-- filter-mapping>
+		<filter-name>loggerfilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping-->
+	<servlet-mapping>
+		<servlet-name>test</servlet-name>
+		<url-pattern>/design</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>csrFile</servlet-name>
+	    <url-pattern>/csr</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AndroidApi</servlet-name>
+    <url-pattern>/buildAndroid</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateAndroid</servlet-name>
+    <url-pattern>/updateAndroid</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Report</servlet-name>
+    <url-pattern>/report</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Resume</servlet-name>
+    <url-pattern>/resume</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Note</servlet-name>
+    <url-pattern>/note</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestResume</servlet-name>
+    <url-pattern>/test/resume</url-pattern>
+  </servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>/WEB-INF/index.html</welcome-file>
+	</welcome-file-list>
+	
+ 
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/index.html</location>
+	</error-page>
+	
+
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/index.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/index.html</location>
+	</error-page>
+
+</web-app>
